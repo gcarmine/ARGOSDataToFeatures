@@ -16,11 +16,10 @@ import sys, os, arcpy
 #Allow arcpy to overwrite outputs
 arcpy.env.overwriteOutput = True
 
-# Set input variables (Hard-wired)
-#inputFile = 'V:\\ARGOSTracking\\Data\\ARGOSData\\1997dg.txt'
-inputFolder = "V:\\ARGOSTracking\\Data\\ARGOSdata"
-outputFC = "V:/ARGOSTracking/Scratch/ARGOStrack.shp"
-outputSR = arcpy.SpatialReference(54002)
+# Set input variables (user input)
+inputFolder = arcpy.GetParameterAsText(0)
+outputFC = arcpy.GetParameterAsText(1)
+outputSR = arcpy.GetParameterAsText(2)
 
 #Create an empty feature class to which we'll add features
 outPath, outName = os.path.split(outputFC)
@@ -43,7 +42,7 @@ for inputFile in inputFiles:
     
     #Add full path to inputFile name
     inputFile_full = os.path.join(inputFolder,inputFile)
-    print(f"Processing {inputFile}")
+    arcpy.AddMessage(f"Processing {inputFile}")
     
     # Open the ARGOS data file for reading
     inputFileObj = open(inputFile_full,'r')
